@@ -1,0 +1,5 @@
+[user]
+	email = qdean@implantbase.com
+	name = Quinton Dean
+[url "git@bitbucket.org:"]
+	insteadOf = https://bitbucket.org/
