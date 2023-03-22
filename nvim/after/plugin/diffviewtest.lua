@@ -1,4 +1,6 @@
 local actions = require("diffview.actions")
+local keymap = vim.api.nvim_set_keymap
+local opts = { noremap = true }
 
 require("diffview").setup({
   diff_binaries = false,    -- Show diffs for binaries
@@ -53,14 +55,14 @@ require("diffview").setup({
     },
   },
   file_history_panel = {
-    log_options = {   -- See ':h diffview-config-log_options'
-      single_file = {
-        diff_merges = "combined",
-      },
-      multi_file = {
-        diff_merges = "first-parent",
-      },
-    },
+    -- log_options = {   -- See ':h diffview-config-log_options'
+    --   single_file = {
+    --     diff_merges = "combined",
+    --   },
+    --   multi_file = {
+    --     diff_merges = "first-parent",
+    --   },
+    -- },
     win_config = {    -- See ':h diffview-config-win_config'
       position = "bottom",
       height = 16,
@@ -171,3 +173,5 @@ require("diffview").setup({
     },
   },
 })
+keymap('n', '<leader>dv', '<cmd>DiffviewOpen<Cr>', opts)
+keymap('n', '<leader>vd', '<cmd>DiffviewClose<Cr>', opts)

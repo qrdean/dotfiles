@@ -23,6 +23,11 @@ return require('packer').startup(function()
   use 'jiangmiao/auto-pairs'
   use 'tpope/vim-surround'
 
+  use {'numToStr/Comment.nvim'}
+
+  -- Harpoon
+  use 'ThePrimeagen/harpoon'
+
   -- Git Integration
   use 'mhinz/vim-signify'
   use 'tpope/vim-fugitive'
@@ -52,5 +57,11 @@ return require('packer').startup(function()
   -- Treesitter
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
   use {'nvim-treesitter/nvim-treesitter-textobjects'}
+
+  -- Zen
+  use 'folke/zen-mode.nvim'
+
+  -- java
+  use 'mfussenegger/nvim-jdtls'
 
 end)

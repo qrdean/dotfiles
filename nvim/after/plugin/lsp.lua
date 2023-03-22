@@ -1,10 +1,10 @@
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+--vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+--vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -33,7 +33,7 @@ local lsp_flags = {
   debounce_text_changes = 150,
 }
 
-require('lspconfig')['sumneko_lua'].setup{
+require('lspconfig')['lua_ls'].setup{
     on_attach = on_attach,
     settings = {
       Lua = {
@@ -63,6 +63,8 @@ require('lspconfig')['gopls'].setup{
 }
 
 require('lspconfig')['groovyls'].setup{
+  cmd = { "/Users/quintondean/.sdkman/candidates/java/17.0.5-amzn/bin/java", "-jar", "/Users/quintondean/Tools/groovy-language-server/build/libs/groovy-language-server-all.jar" },
+  filetype = {"groovy"},
   on_attach = on_attach,
   flags = lsp_flags,
 }
@@ -90,3 +92,6 @@ require('lspconfig')['rust_analyzer'].setup{
   }
 }
 
+require('lspconfig').pyright.setup{
+  on_attach = on_attach,
+}
