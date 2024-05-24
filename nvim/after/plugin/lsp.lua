@@ -1,6 +1,7 @@
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-local opts = { noremap=true, silent=true }
+local util = require('lspconfig.util')
+local opts = { noremap = true, silent = true }
 --vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
@@ -12,10 +13,11 @@ local on_attach = function(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   local keymap = vim.keymap.set
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  vim.lsp.inlay_hint.enable(false)
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  local bufopts = { noremap = true, silent = true, buffer = bufnr }
   keymap('n', 'gD', vim.lsp.buf.declaration, bufopts)
   keymap('n', 'gd', vim.lsp.buf.definition, bufopts)
   keymap('n', 'K', vim.lsp.buf.hover, bufopts)
@@ -23,9 +25,14 @@ local on_attach = function(client, bufnr)
   keymap('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
   keymap('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
   keymap('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-  keymap('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+  keymap({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, bufopts)
   keymap('n', 'gr', vim.lsp.buf.references, bufopts)
-  keymap('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+  keymap('n', '<space>f', function()
+    vim.lsp.buf.format { async = true }
+  end, bufopts)
+  keymap('n', '<space>ih', function()
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
+  end, bufopts)
 end
 
 local lsp_flags = {
@@ -33,23 +40,26 @@ local lsp_flags = {
   debounce_text_changes = 150,
 }
 
-require('lspconfig')['lua_ls'].setup{
-    on_attach = on_attach,
-    settings = {
-      Lua = {
-        diagnostics = {
-          globals = { 'vim' }
-        }
+require('lspconfig')['lua_ls'].setup {
+  on_attach = on_attach,
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { 'vim' }
+      },
+      hint = {
+        enable = true
       }
     }
+  }
 }
 
-require('lspconfig')['tsserver'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
+require('lspconfig')['tsserver'].setup {
+  on_attach = on_attach,
+  flags = lsp_flags,
 }
 
-require('lspconfig')['gopls'].setup{
+require('lspconfig')['gopls'].setup {
   cmd = { "gopls", "serve" },
   on_attach = on_attach,
   settings = {
@@ -58,18 +68,14 @@ require('lspconfig')['gopls'].setup{
         unusedparams = true
       },
       staticcheck = true,
+      hints = {
+        parameterNames = true
+      }
     }
   }
 }
 
-require('lspconfig')['groovyls'].setup{
-  cmd = { "/Users/quintondean/.sdkman/candidates/java/17.0.5-amzn/bin/java", "-jar", "/Users/quintondean/Tools/groovy-language-server/build/libs/groovy-language-server-all.jar" },
-  filetype = {"groovy"},
-  on_attach = on_attach,
-  flags = lsp_flags,
-}
-
-require('lspconfig')['rust_analyzer'].setup{
+require('lspconfig')['rust_analyzer'].setup {
   on_attach = on_attach,
   flags = lsp_flags,
   settings = {
@@ -92,6 +98,33 @@ require('lspconfig')['rust_analyzer'].setup{
   }
 }
 
-require('lspconfig').pyright.setup{
+-- local port = os.getenv 'GDScript_Port' or '6005'
+-- local cmd = vim.lsp.rpc.connect('127.0.0.1', port)
+require('lspconfig').gdscript.setup {
+  on_attach = on_attach,
+  -- settings = {
+  --   cmd = cmd,
+  --   filetypes = { 'gd', 'gdscript', 'gdscript3' },
+  --   root_dir = util.root_pattern('project.godot', '.git'),
+  -- },
+}
+
+require('lspconfig').clangd.setup {
+  on_attach = on_attach,
+}
+
+require('lspconfig')['slint_lsp'].setup {
+  on_attach = on_attach,
+}
+
+require('lspconfig')['gleam'].setup {
+  on_attach = on_attach,
+}
+
+-- require('lspconfig').pyright.setup{
+--   on_attach = on_attach,
+-- }
+
+require('lspconfig').ocamllsp.setup {
   on_attach = on_attach,
 }

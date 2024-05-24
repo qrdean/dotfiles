@@ -1,17 +1,5 @@
-local parser_config=require"nvim-treesitter.parsers".get_parser_configs()
-parser_config.groovy = {
-  install_info = {
-    url = "~/Projects/tree-sitter-groovy",
-    files = {"src/parser.c"},
-    branch = "main",
-    generate_requires_npm = false,
-    requires_generate_from_grammar = false,
-  },
-  filetype = "groovy",
-}
-
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = {"python", "bash", "javascript", "go", "java", "typescript", "lua", "rust", "groovy"},
+require 'nvim-treesitter.configs'.setup {
+  ensure_installed = { "vimdoc", "python", "bash", "javascript", "go", "java", "typescript", "lua", "rust", "gdscript", "godot_resource", "slint" },
 
   highlight = {
     enable = true,
@@ -39,4 +27,3 @@ require'nvim-treesitter.configs'.setup {
     }
   }
 }
-

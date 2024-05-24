@@ -15,9 +15,16 @@ keymap('n', '<C-i>', '<C-i>zz', opts)
 --keymap('n', 'n', 'nzzzv', opts)
 keymap('n', "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", opts)
 
+vim.api.nvim_create_autocmd('TextYankPost', {
+  group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end
+})
+
 
 
 -- Copilot
-keymap('i', '<C-Bslash>', '<cmd>call copilot#Suggest()<Cr>', opts)
-keymap('i', '<M-j>', '<cmd>call copilot#Previous()<Cr>', opts)
-keymap('i', '<M-h>', '<cmd>call copilot#Next()<Cr>', opts)
+-- keymap('i', '<C-Bslash>', '<cmd>call copilot#Suggest()<Cr>', opts)
+-- keymap('i', '<M-j>', '<cmd>call copilot#Previous()<Cr>', opts)
+-- keymap('i', '<M-h>', '<cmd>call copilot#Next()<Cr>', opts)

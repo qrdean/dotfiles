@@ -6,7 +6,7 @@ require("diffview").setup({
   diff_binaries = false,    -- Show diffs for binaries
   enhanced_diff_hl = false, -- See ':h diffview-config-enhanced_diff_hl'
   git_cmd = { "git" },      -- The git executable followed by default args.
-  use_icons = true,         -- Requires nvim-web-devicons
+  use_icons = false,        -- Requires nvim-web-devicons
   watch_index = true,       -- Update views and index buffers when the git index changes.
   icons = {                 -- Only applies when use_icons is true.
     folder_closed = "",
@@ -175,3 +175,4 @@ require("diffview").setup({
 })
 keymap('n', '<leader>dv', '<cmd>DiffviewOpen<Cr>', opts)
 keymap('n', '<leader>vd', '<cmd>DiffviewClose<Cr>', opts)
+
